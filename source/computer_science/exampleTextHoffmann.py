@@ -97,6 +97,7 @@ def merge(arr1, arr2):
     return result   
 
 def recursiveSort(arr):
+    """Рекурсивная сортировка"""
     if len(arr) <= 1:
         return arr
     first, last = halfofarray(arr)
@@ -104,6 +105,7 @@ def recursiveSort(arr):
     
 
 def bubblesort(array):
+    """Сортировка пузырьком"""
     sorted = 0
     for i in range(len(arr)):
         for e in range(len(arr) - sorted - 1):
