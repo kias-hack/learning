@@ -26,13 +26,22 @@ start = False
 period = False
 minAmplitude = y[0]
 maxAmplitude = y[0]
+signal_sum = 0
+zero = 0
 for i in range(1, len(y)):
-    if prev_value >= 0 and y[i] < 0 and period is False:
+    if prev_value >= zero and y[i] < zero and period is False:
         if start is False:
             start = i
+            signal_sum = y[i]
         else:
             period = i - start
+            print("Средняя точка находится в значении - " + str(signal_sum / period))
             start = False
+    if start > 0:
+        signal_sum  = signal_sum + y[i]
+    if prev_value <= zero and y[i] > zero and period is False:
+        if start > 0:
+            print("Действующее значение сигнала - " + str(abs(signal_sum/(i - start))))
     if y[i] < minAmplitude:
         minAmplitude = y[i]
     if y[i] > maxAmplitude:
