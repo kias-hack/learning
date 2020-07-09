@@ -3,7 +3,7 @@ import math
 import pandas as pd
 import numpy as np
 
-cust = pd.read_csv('Cust_Segmentation.csv')
+cust = pd.read_csv('data/Cust_Segmentation.csv')
 
 df = cust.drop('Address', axis = 1)
 
@@ -16,17 +16,7 @@ def k_means(data, cluster_size, max_iteration):
     column_number = len(data[0])
     clusters = list()
 
-    # for i in range(cluster_size):
-    #     cluster = list()
-    #     for column_index in range(column_number):
-    #         summ = 0
-    #         size_col = 1
-    #         for item in data:
-    #             summ += item[column_index]   
-    #             size_col += 1 
-    #         cluster.append((summ/size_col) * random.random())
-    #     clusters.append(cluster)
-
+    """Находим начальные координаты кластеров, путем разбиения данных на кол-во кластеров и вычисляем средние координаты по этим точкам"""
     for i in range(cluster_size):
         cluster = list()
         for column_index in range(column_number):
@@ -40,6 +30,7 @@ def k_means(data, cluster_size, max_iteration):
             cluster.append((summ/size_col) * random.random())
         clusters.append(cluster)
     
+    """Находим в цикле точки кластеров"""
     for i in range(max_iteration):
         cluster_group = [list() for i in range(cluster_size)]
 
@@ -57,8 +48,6 @@ def k_means(data, cluster_size, max_iteration):
                     cluster_min_index = cluster_iter
             
             cluster_group[cluster_min_index].append(item)
-            # for num_iter in range(column_number):
-            #     new_cluster_coordinates[cluster_min_index][num_iter] += round(item[num_iter]/2, 2)
         
         for index_cluster in range(cluster_size):
             new_coords = [0 for i in range(column_number)]
@@ -76,6 +65,7 @@ def k_means(data, cluster_size, max_iteration):
 
     predict = list();
 
+    """Вычисляем соотношение для каждой точки к кластеру"""
     for item in data:
         dist_min = False
         cluster_min_index = 0
@@ -92,12 +82,9 @@ def k_means(data, cluster_size, max_iteration):
 
     return predict
     
-                    
-def arithmetic_mean_2_number(num1, num2):
-    return (num1 + num2) / 2
-    
 
 def euclidean_distance(vector1, vector2):
+    """Евклидово расстояние между двумя точками - векторами"""
     result = 0
     for i in range(len(vector1)):
         result += math.pow(vector1[i] - vector2[i], 2)
@@ -111,4 +98,4 @@ labels = k_means(x, 3, 12)
 
 df['cluster'] = labels
 
-df.groupby('cluster').mean()
+зкште(df.groupby('cluster').mean())
